@@ -1,0 +1,74 @@
+﻿@using System
+@using KettleModel
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<KettleModel.Repository>
+<html>
+    <body>
+        <h2>Repository @Model.Name</h2>
+        <p>
+            Type: <a href="@(Model.Url)/filter/All/@(ViewBag.Filter)">All</a>
+            | <a href="@(Model.Url)/filter/Jobs/@(ViewBag.Filter)">Jobs</a>
+            | <a href="@(Model.Url)/filter/Transformations/@(ViewBag.Filter)">Transformations</a>
+            <br />
+            Filter: <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/All">All</a>
+            | <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/Unreferenced">Unrefernced</a>
+            | <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/Errors">Errors</a>
+            Action: <a href="@(Model.Url)/Reload">Reload</a>
+            <br />
+        </p>
+        <ul>
+        @RenderFolder(Model)
+        </ul>
+    </body>
+</html>
+@helper RenderFolder(Folder folder)
+{
+    <li>
+        @folder.Name
+        <ul>
+            @foreach (Folder child in folder.Folders)
+            {
+                @RenderFolder(child)
+            }
+            @if (ViewBag.TypeFilter == "All" || ViewBag.TypeFilter == "Jobs")
+            {
+                foreach (Job job in folder.Jobs)
+                {
+                    if (RenderItem(job))
+                    {
+                        <li><a href="@job.Url">@job.Name</a> (J) @if(job.LoadError) { @("(E)") } </li>
+                    }
+                }
+            }
+            @if (ViewBag.TypeFilter == "All" || ViewBag.TypeFilter == "Transformations")
+            {
+                foreach (Transformation transformation in folder.Transformations)
+                {
+                    if (RenderItem(transformation))
+                    {
+                        <li><a href="@transformation.Url">@transformation.Name</a> (T) @if (transformation.LoadError)
+                                                                                       { @("(E)") }</li>
+                    }
+                }
+            }
+        </ul>
+    </li>
+}
+@functions
+{
+
+    bool RenderItem(KettleItem item)
+    {
+        bool render = true;
+        if (ViewBag.Filter == "Unreferenced")
+        {
+            render = item.Unreferenced;
+        }
+        if (ViewBag.Filter == "Errors")
+        {
+            render = item.LoadError;
+        }
+        return render;
+    }
+
+}
+>

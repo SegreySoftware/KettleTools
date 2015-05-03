@@ -1,0 +1,14 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<System.Collections.Generic.List<string>>
+<html>
+    <body>
+        <h2>Repositories</h2>
+        
+        <ul>
+        @foreach (string name in Model)
+        {
+            <li><a href="/repo/@name">@name</a></li>
+        }
+        </ul>
+    </body>
+</html>
+

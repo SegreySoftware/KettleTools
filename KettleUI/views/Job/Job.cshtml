@@ -1,0 +1,40 @@
+﻿@using KettleModel
+@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<KettleModel.Job>
+<html>
+    <body>
+        <h2>Job: @Model.Name</h2>
+        <form action="@Model.Url" method="POST">
+            <table>
+                <tr><td>Name</td><td>@Model.Name</td></tr>
+                <tr><td>Directory</td><td>@Model.Directory</td></tr>
+                <tr>
+                    <td>Uses</td>
+                    <td>
+                        @foreach (var item in Model.ReferencedItems)
+                        {
+                            <a href="@item.Url">@item.Name</a> @("(" + item.TypeName + ")")
+                            <br />
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Used by</td>
+                    <td>
+                        @foreach (var item in Model.ReferncedByItems)
+                        {
+                            <a href="@item.Url">@item.Name</a> @("(" + item.TypeName + ")")
+                            <br />
+                        }
+                    </td>
+                </tr>
+                <tr><td>Name</td><td><input name="Name" value="@Model.Name" /></td></tr>
+                <tr><td>Directory</td><td><input name="Directory" value="@Model.Directory" />
+                                          <input type="submit" value="Change" /></td></tr>
+
+                <tr><td>Errors</td><td>@Model.ErrorMessage</td></tr>
+            </table>
+        </form>
+        <a href="@Model.Repository.Url">Repository</a>
+    </body>
+</html>
+
