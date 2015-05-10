@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="KettleUI.licenseheader" />
     <None Include="packages.config" />
     <None Include="views\Home\index.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -80,6 +81,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Content Include="Content\CollapsibleLists.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

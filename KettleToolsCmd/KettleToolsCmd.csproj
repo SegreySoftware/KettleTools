@@ -73,9 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="KettleToolsCmd.licenseheader" />
     <None Include="packages.config" />
     <None Include="Repositories.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="web.config" />
   </ItemGroup>

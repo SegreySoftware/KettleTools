@@ -1,7 +1,24 @@
-﻿@using System
+﻿@*
+Segrey Software licenses this file to you under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with 
+the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*@
+@using System
 @using KettleModel
 @inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<KettleModel.Repository>
+
 <html>
+    <head>
+        <script type="text/javascript" src="@Url.Content("~/Content/CollapsibleLists.js")"></script>
+    </head>
     <body>
         <h2>Repository @Model.Name</h2>
         <p>
@@ -12,16 +29,20 @@
             Filter: <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/All">All</a>
             | <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/Unreferenced">Unrefernced</a>
             | <a href="@(Model.Url)/filter/@(ViewBag.TypeFilter)/Errors">Errors</a>
+            <br />
             Action: <a href="@(Model.Url)/Reload">Reload</a>
             <br />
         </p>
-        <ul>
-        @RenderFolder(Model)
+        <ul class="collapsibleList">
+            @RenderFolder(Model)
         </ul>
     </body>
+    <script>
+        CollapsibleLists.apply();
+    </script>
 </html>
 @helper RenderFolder(Folder folder)
-{
+    {
     <li>
         @folder.Name
         <ul>
@@ -35,7 +56,8 @@
                 {
                     if (RenderItem(job))
                     {
-                        <li><a href="@job.Url">@job.Name</a> (J) @if(job.LoadError) { @("(E)") } </li>
+                        <li><a href="@job.Url">@job.Name</a> (J) @if (job.LoadError)
+                                                                 { @("(E)") } </li>
                     }
                 }
             }
@@ -71,4 +93,3 @@
     }
 
 }
->
